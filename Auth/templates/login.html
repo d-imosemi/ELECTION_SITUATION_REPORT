@@ -1,18 +1,39 @@
-{% extends "main/header.html" %}
+{% extends 'base.html' %}
+{% block title %}
+Login
+{% endblock title %}
 
-{% block content %}      
+{% block content %} 
 
-{% load crispy_forms_tags %}
+<div class="dash-content text-center form-group">
 
-<!--Login--> 
-<div class="container py-5">
-  <h1>Login</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ login_form.as_p }}
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
-  <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p>
-</div>
-
-{% endblock %}
+    <h1>Login...</h1>
+    <br/>
+    <form method='post'>
+        {% csrf_token %}
+        {% for error in form.non_field_errors %}
+           <div class='alert alert-danger'>
+               {{ error }}
+           </div>
+        {{ form.as_p }}
+        {% endfor %}
+        
+        {% for field in form  %}
+        <div class='form-group'>
+                {{ field.label }}
+                {{ field }}
+        </div>
+    
+        {% if field.errors %}
+        <div class='alert alert-danger'>
+            {{ field.errors }}
+        </div>
+    
+        {% endif %}
+        {% endfor %}
+    
+        <button type='submit' class='btn btn-secondary'>Login</button>
+    </form>
+    <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p>
+    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+{% endblock content %}

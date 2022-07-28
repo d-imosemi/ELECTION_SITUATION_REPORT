@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'report',
     
     'django_cleanup.apps.CleanupConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                                
+                'report.context_processors.header_context', ### ADDED LINE
             ],
         },
     },
@@ -144,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'home'
 
 LOGIN_URL = 'login'
 

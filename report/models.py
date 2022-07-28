@@ -11,14 +11,14 @@ from django.core.exceptions import ValidationError
 # VIDEO-----VALIDATORS------START
 
 def validate_is_mp4(file):
-    valid_mime_types = ['video/mp4', 'video/mpeg-4']
+    valid_mime_types = ['video/mp4', 'video/mpeg',]
     file_mime_type = magic.from_buffer(file.read(2048), mime=True)
     if file_mime_type not in valid_mime_types:
         raise ValidationError('Unsupported file type.')
-    valid_file_extensions = ['.MP4', '.mp4', '.mpeg-4', '.MPEG-4']
+    valid_file_extensions = ['.MP4', '.mp4', '.mpeg', '.MPEG',]
     ext = os.path.splitext(file.name)[1]
     if ext.lower() not in valid_file_extensions:
-        raise ValidationError('Unacceptable file extension.')
+        raise ValidationError('Unacceptable file extension. Acceptable files are .MP4')
 
 def validate_file_size(value):
     filesize= value.size
@@ -61,6 +61,7 @@ class Candidate(models.Model):
     candidate_name = models.CharField(max_length=50)
     candidate_image = models.ImageField(upload_to="candidate_image/%Y/%m/%d/")
     candidate_party = models.CharField(max_length=50)
+    know_more = models.CharField(max_length=150)
     created_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -120,7 +121,7 @@ class SituationReport(models.Model):
     ward = models.CharField(max_length=20)
     polling_unit = models.CharField(max_length=20)
     video = models.FileField(upload_to="report_video/%Y/%m/%d/", validators=(validate_is_mp4, validate_file_size,))
-    brief_description = models.TextField(max_length=70, null=True, blank=True)
+    brief_description = models.TextField(max_length=150, null=True, blank=True)
     published = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

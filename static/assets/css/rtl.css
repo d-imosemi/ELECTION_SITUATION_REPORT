@@ -1,0 +1,139 @@
+
+/* ================================================================================== 
+										RTL CSS
+===================================================================================== */
+
+body {
+    direction:rtl;
+}
+
+.social-links ul li{
+  padding-left: 10px;
+}
+
+.search-wrapper button{
+  margin-right: 10px;
+}
+
+/* .kavya-navbar .arrow-icon .left-bar{
+  right: 0;
+} */
+
+.kavya-navbar .arrow-icon .right-bar{
+  left: 0;
+}
+
+.kavya-navbar .drop-menu{
+  text-align: right;
+}
+
+.search-section{
+  right: 0;
+}
+
+.search-section .closebtn{
+  left: 50px;
+}
+
+.search-section input[type="text"]{
+  float: right;
+}
+
+.search-section button{
+  float: right;
+}
+
+.banner-section .main-banner .banner-bg-right .banner-carousel{
+  right: -35%;
+  direction:ltr;
+}
+.banner-section .main-banner .banner-carousel .banner-item{
+    flex-direction:row-reverse;
+}
+.banner-carousel .banner-item .banner-text{
+    text-align:right;
+}
+.banner-section .main-banner .card .card-img-overlay{
+  right: 50%;
+}
+.card-body{
+    text-align:right;
+}
+.section-title{
+    text-align:right;
+}
+.section-title:before{
+    right:-20px;
+    left:auto;
+}
+.featured-posts .featured-left .card-img-overlay{
+  right:auto;
+  text-align:right;
+}
+
+.featured-right .card .card-body{
+  left: -3px;
+  right:auto;
+  text-align: left;
+}
+
+.sidebar-item a{
+  padding-right: 15px;
+}
+
+.insta-posts h2{
+  padding-right: 10px;
+}
+
+.insta-posts i{
+  padding-left: 10px;
+}
+.image-item-grid{
+ direction:ltr;
+}
+.image-item .image-hover{
+  right: 20px;
+  padding: 30px 10px 0px 20px ;
+  left: 20px;
+}
+
+.image-item:hover .image-hover{
+  padding: 30px 10px 10px 20px ;
+}
+
+.sticky-sidebar{
+    left:0;
+    right:auto;
+    margin-left:-20%;
+    margin-right:auto;
+}
+.sidebar-show{
+    margin-left:0!important;
+}
+
+.circular-icons.social-links ul li{
+    padding-left:0;
+}
+.sticky-sidebar .author-posts .card .card-body{
+    padding-right:15px;
+    padding-left:0;
+    text-align:right;
+}
+
+@media screen and (max-width: 1400px){
+    .sticky-sidebar {
+        width: 28%;
+        margin-left: -28%;
+    }
+}
+@media screen and (max-width: 991px){
+    .banner-section .main-banner .banner-carousel .banner-item{
+       flex-wrap:wrap;
+    }
+    .banner-section .main-banner .banner-bg-right .banner-carousel {
+        right:0;
+        left:auto;
+    }
+}
+
+

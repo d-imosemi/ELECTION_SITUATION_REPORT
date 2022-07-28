@@ -22,7 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admindashboardmad/', admin.site.urls),
     path('', include('Auth.urls')),
     path('', include('report.urls')),
 

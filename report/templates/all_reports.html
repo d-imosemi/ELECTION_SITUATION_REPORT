@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<center>
+    <br>
+    {% if count %}  
+    <h3><b>Total of {{ count }} Report{{ count|pluralize }}</b></h3>                  
+{% else %}
+No Video Yet
+{% endif %}
+
+<br>
+
+{% if users %}
+{% if user.is_authenticated %}
+<h5><b>Total of {{ users }} Reporter{{ users|pluralize }}</b></h5>
+{% else %} 
+<h5><b>Join {{ users }} Other User{{ users|pluralize }} In Reporting The Election Happenings Around You</b></h5>
+{% endif %}
+{% else %}
+No User Yet
+{% endif %}
+
+<br>
+<h2><p>All Reports Across Nigeria</p></h2>
+{% for i in object_list %}
+
+<video width="320" height="240" controls>
+    <source src="{{ i.video.url }}" type="video/mp4">
+    <source src="{{ i.video.url }}" type="video/mpeg-4">
+    <source src="{{ i.video.url }}" type="video/3gp">
+    Your browser does not support this video.
+</video> 
+<br>
+{% if i.user.first_name and i.user.last_name %}
+<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+{% else %}
+<p>Posted By: Anonymous</p>
+{% endif %}
+<p>State: {{ i.state }}</p>
+<p>LGA: {{ i.lga }}</p>
+<p>Ward: {{ i.ward }}</p>
+<p>Polling Unit: {{ i.polling_unit }}</p>
+<p>Narration: {{ i.brief_description }}</p>
+<p>Posted On: {{ i.created_on }}</p>
+{% endfor %}
+</center>
+
+{% endblock content %}
