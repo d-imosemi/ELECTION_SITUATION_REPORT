@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div id="like-section">
+    {% include 'like_section.html' %}
+</div>
+
+<center>
+<br>
+<video width="320" height="240" controls>
+    <source src="{{ report.video.url }}" type="video/mp4">
+    <source src="{{ report.video.url }}" type="video/mpeg-4">
+    <source src="{{ report.video.url }}" type="video/3gp">
+    Your browser does not support this video.
+</video> 
+<br>
+{% if report.user.first_name and report.user.last_name %}
+<p>Posted By: {{ report.user.first_name|upper }} {{ report.user.last_name|upper }}</p>
+{% else %}
+<p>Posted By: Anonymous</p>
+{% endif %}
+<p>State: {{ report.state }}</p>
+<p>LGA: {{ report.lga }}</p>
+<p>Ward: {{ report.ward }}</p>
+<p>Polling Unit: {{ report.polling_unit }}</p>
+<p>Narration: {{ report.brief_description }}</p>
+<p>Posted On: {{ report.created_on }}</p>
+<br><br>
+
+<small>This report will be taken down if downvotes exceed 1,000</small>
+<span ><p><em class="like-section">{{ total_likes }}</em> Downvote{{ total_likes|pluralize }}</p></span>
+
+
+{% if request.user.is_authenticated %}
+<form action="{% url 'like_post' report.id%}" method="POST" class="like-form">
+    {% csrf_token %}
+        {% if is_liked %}
+        <small>Is this video real?</small>
+    <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-primary">Real</button>
+        {% else %}
+        <small>Is this video fake?</small>
+    <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-danger">Fake</button>
+        {% endif %}
+</form>
+{% else %}
+<small>Is this video fake?</small>
+<a class="btn btn-danger" href="{% url 'login' %}">Fake</a>
+{% endif %}
+<hr>
+</center>
+
+
+{% endblock content %}

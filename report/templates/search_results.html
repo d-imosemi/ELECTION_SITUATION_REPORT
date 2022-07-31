@@ -7,4 +7,39 @@
     {{ title }}
  </span></h2>
 
+
+<center>
+    <br>
+{% for i in object_list %}
+
+<video width="320" height="240" controls>
+    <source src="{{ i.video.url }}" type="video/mp4">
+    <source src="{{ i.video.url }}" type="video/mpeg-4">
+    <source src="{{ i.video.url }}" type="video/3gp">
+    Your browser does not support this video.
+</video> 
+<br>
+{% if i.user.first_name and i.user.last_name %}
+<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+{% else %}
+<p>Posted By: Anonymous</p>
+{% endif %}
+<p>State: {{ i.state }}</p>
+<p>LGA: {{ i.lga }}</p>
+<p>Ward: {{ i.ward }}</p>
+<p>Polling Unit: {{ i.polling_unit }}</p>
+<p>Narration: {{ i.brief_description }}</p>
+<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
+
+<br><br>
+
+<small>This report will be taken down if downvotes exceed 1,000</small>
+<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
+
+<hr>
+{% empty %}
+<h2><b><p>Sorry No search results for {{ title }}</p></b></h2>
+{% endfor %}
+</center>
+
 {% endblock content %}

@@ -45,7 +45,16 @@ No User Yet
 <p>Ward: {{ i.ward }}</p>
 <p>Polling Unit: {{ i.polling_unit }}</p>
 <p>Narration: {{ i.brief_description }}</p>
-<p>Posted On: {{ i.created_on }}</p>
+<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
+
+
+<br><br>
+<small>This report will be taken down if downvotes exceed 1,000</small>
+<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
+
+<hr>
+
+
 {% endfor %}
 </center>
 

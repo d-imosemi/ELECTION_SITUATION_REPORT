@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from .models import *
 
 def header_context(request):
@@ -5,6 +6,7 @@ def header_context(request):
         'quote': DailyInspiration.objects.all()[0:1],
         'count' : SituationReport.objects.filter(published=True).count(),
         'users' : User.objects.all().count(),
-        'header_title': HeaderTitle.objects.all()[0:1]
+        'header_title': HeaderTitle.objects.all()[0:1],
+
 
     }

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Upload Video
+Upload Report
 {% endblock title %}
 
 {% block content %} 
@@ -34,5 +34,41 @@ Upload Video
     
         <button type='submit' class='btn btn-secondary'>Upload</button>
     </form>
+
+    
+
+    <br>
+<h2><p>Your Report{{ user_video|pluralize }}</p></h2>
+
+
+{% for i in user_video  %}
+
+<video width="320" height="240" controls>
+    <source src="{{ i.video.url }}" type="video/mp4">
+    <source src="{{ i.video.url }}" type="video/mpeg-4">
+    <source src="{{ i.video.url }}" type="video/3gp">
+    Your browser does not support this video.
+</video>
+<br>
+<hr>
+<p>State: {{ i.state }}</p>
+<p>LGA: {{ i.lga }}</p>
+<p>Ward: {{ i.ward }}</p>
+<p>Polling Unit: {{ i.polling_unit }}</p>
+<p>Narration: {{ i.brief_description }}</p>
+<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
+
+<br><br>
+<small>This report will be taken down if downvotes exceed 1,000</small>
+<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
+
+<hr>
+
+
+{% empty %}
+<p><b>You do not have any Report at the Moment</b></p>
+
+{% endfor %}
+
 
 {% endblock content %}

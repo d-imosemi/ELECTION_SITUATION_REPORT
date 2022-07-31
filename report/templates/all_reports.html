@@ -43,8 +43,36 @@ No User Yet
 <p>Ward: {{ i.ward }}</p>
 <p>Polling Unit: {{ i.polling_unit }}</p>
 <p>Narration: {{ i.brief_description }}</p>
-<p>Posted On: {{ i.created_on }}</p>
+<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
+
+
+<br><br>
+<small>This report will be taken down if downvotes exceed 1,000</small>
+<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
+<hr>
+
 {% endfor %}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </center>
+
 
 {% endblock content %}

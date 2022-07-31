@@ -4,7 +4,7 @@ from .models import *
 
 class SituationReportAdmin(admin.ModelAdmin):
     list_filter = ['user', 'state', 'created_on',]
-    list_display = ['user', 'video', 'published', 'created_on']
+    list_display = ['user', 'video', 'published', 'total_downvote', 'created_on']
 
 
 admin.site.register(DailyInspiration)

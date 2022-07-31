@@ -76,7 +76,7 @@ class Candidate(models.Model):
 
 class SituationReport(models.Model):
     STATE = (
-        ('F.C.T', 'F.C.T'),
+        ('Fct', 'Fct'),
         ('Abia', 'Abia'),
         ('Adamawa', 'Adamawa'),
        ('Akwa Ibom', ' Akwa Ibom'),
@@ -115,7 +115,7 @@ class SituationReport(models.Model):
         ('Zamfara', 'Zamfara'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_video')
     state = models.CharField(max_length=20, choices=STATE)
     lga = models.CharField(max_length=20)
     ward = models.CharField(max_length=20)
@@ -123,11 +123,16 @@ class SituationReport(models.Model):
     video = models.FileField(upload_to="report_video/%Y/%m/%d/", validators=(validate_is_mp4, validate_file_size,))
     brief_description = models.TextField(max_length=150, null=True, blank=True)
     published = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, related_name='blog_post', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_on']
+
+    def total_downvote(self):
+        return self.likes.count()
+
 
     def __str__(self):
         return '{} || by ====> {}'.format(self.video, self.user)
