@@ -62,6 +62,7 @@ class AllReports(ListView):
 
 
 
+
 def ReportDetail(request, pk):
     template_name = 'report_detail.html'
     report = get_object_or_404(SituationReport, pk=pk, published=True)
@@ -117,6 +118,22 @@ class AddVideo(CreateView):
         obj.user = self.request.user
         obj.save()
         return super().form_valid(form)
+
+
+
+
+
+def UserProfile(request, pk):
+    user_videos = SituationReport.objects.filter(user=pk, published=True)
+    user = User.objects.filter(id=pk)
+    context = {
+        'user_videos': user_videos,
+        'user': user,
+    }
+    return render(request, 'user_profile.html', context)
+
+
+
 
 
 

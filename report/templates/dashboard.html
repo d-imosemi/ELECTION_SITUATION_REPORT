@@ -3,7 +3,25 @@
 Upload Report
 {% endblock title %}
 
-{% block content %} 
+{% block content %}
+
+<center>
+{% if user.is_authenticated %}
+<h4><p><b>My Profile</b></p></h4>
+    <br>
+<p><b>Last Name:</b> {{ user.last_name|upper }}</p>
+<p><b>First Name:</b> {{ user.first_name|upper }}</p>
+<p><b>Username:</b> @{{user.username}}</p>
+<p><b>Email:</b> <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+{% endif %}
+<a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit profile</a>
+<br>
+
+<hr><hr>
+
+</center>
+
+
 
 <div class="dash-content text-center form-group">
 
@@ -13,8 +31,8 @@ Upload Report
     <p><small>CLICK THE LINK TO FREELY COMPRESS YOUR VIDEO <a target="_blank" class="btn btn-primary btn-sm" href="https://www.freeconvert.com/video-compressor">Compress</a></small></p>
     
    <p id="blink"><b>NOTE</b></p>
-    <p><small><b>AT THE START OF YOUR REPORT, SAY YOUR CURRENT</b></small></p>
-    <p><small><b>LOCATION, DATA AND TIME FOR YOUR REPORT TO BE APPROVED PROMPTLY</b></small></p>
+    <p><small><b>AT THE START OF YOUR REPORT, VOICE-OUT YOUR CURRENT</b></small></p>
+    <p><small><b>LOCATION, DATE AND TIME, FOR YOUR REPORT TO BE APPROVED PROMPTLY</b></small></p>
 
     <br/>
     <form method='post' enctype="multipart/form-data">
@@ -54,8 +72,7 @@ Upload Report
 <h4><p>{{ i.title|upper }}</p></h4>
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
-    <source src="{{ i.video.url }}" type="video/mpeg-4">
-    <source src="{{ i.video.url }}" type="video/3gp">
+    <source src="{{ i.video.url }}" type="video/mpeg">
     Your browser does not support this video.
 </video>
 <br>
@@ -74,7 +91,6 @@ Upload Report
 </div>
 
 
-<a href="{% url 'report_detail' i.id %}"><p>
     {% if i.user.first_name and i.user.last_name %}
 <p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
 {% else %}
@@ -86,7 +102,6 @@ Upload Report
 <p>Polling Unit: {{ i.polling_unit|upper }}</p>
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
-</p></a>
 <p><b>Status</b>: {% if i.published %} Approved {% else %} Awaiting Approval {% endif %}</p>
 
 <hr><hr>

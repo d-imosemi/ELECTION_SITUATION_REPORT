@@ -9,8 +9,4 @@ def header_context(request):
         'header_title': HeaderTitle.objects.all()[0:1],
         'candidate' : Candidate.objects.all()[0:4],
         'vid_state' : SituationReport.objects.filter(published=True),
-
-
-
-
     }

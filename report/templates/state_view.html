@@ -38,8 +38,7 @@ No User Yet
 <h4><p>{{ i.title|upper }}</p></h4>
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
-    <source src="{{ i.video.url }}" type="video/mpeg-4">
-    <source src="{{ i.video.url }}" type="video/3gp">
+    <source src="{{ i.video.url }}" type="video/mpeg">
     Your browser does not support this video.
 </video> 
 <br>
@@ -70,7 +69,6 @@ No User Yet
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
 </p></a>
-<p>ID: {{ i.published }}</p>
 
 <hr><hr>
 {% endif %}

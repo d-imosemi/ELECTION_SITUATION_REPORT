@@ -12,8 +12,7 @@
 <br>
 <video width="320" height="240" controls autoplay muted>
     <source src="{{ report.video.url }}" type="video/mp4">
-    <source src="{{ report.video.url }}" type="video/mpeg-4">
-    <source src="{{ report.video.url }}" type="video/3gp">
+    <source src="{{ report.video.url }}" type="video/mpeg">
     Your browser does not support this video.
 </video> 
 <br>
@@ -25,7 +24,8 @@
 
 <hr>
 {% if report.user.first_name and report.user.last_name %}
-<p>Posted By: {{ report.user.first_name|upper }} {{ report.user.last_name|upper }}</p>
+<a href="{% url 'user_videos' report.user.pk %}"><p>Posted By: {{ report.user.first_name|upper }} {{ report.user.last_name|upper }}</p></a>
+
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}

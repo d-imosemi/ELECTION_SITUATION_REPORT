@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<br>
+{{ user }}
+<center>
+    <h5><p>
+    {% for i in user %}
+    {{ i.last_name|upper }} {{ i.first_name|upper }}
+    Profile
+     {% endfor %}
+</b></p></h5>
+{% for i in user %}
+<p>Username : {{i.username}}</p>
+<p>Email : <a href="mailto:{{ i.email }}">{{ i.email }}</a></p>
+{% endfor %}
+<br>
+<hr><hr>
+</center>
+   
+
+
+
+<center>
+    <h2><p>
+        {% for i in user %}
+        {{ i.last_name|upper }} {{ i.first_name|upper }}
+         Report{{ user_videos|pluralize }}</p></h2>
+         {% endfor %}
+
+
+    {% for i in user_videos  %}
+<br>
+<h4><p>{{ i.title|upper }}</p></h4>
+<video width="320" height="240" controls>
+    <source src="{{ i.video.url }}" type="video/mp4">
+    <source src="{{ i.video.url }}" type="video/mpeg">
+    Your browser does not support this video.
+</video>
+<br>
+
+<div>
+    <ul>
+        <li>
+            <p><small>This report will be taken down if downvotes exceed 1,000</small>
+               |  {{ i.total_downvote }} {% if i.total_downvote > 1 %}Downvotes {% else %} Downvote{% endif %}</p>
+        </li>
+
+        <li>
+            <p> {{i.View_counts.count}} {% if i.View_counts.count > 1 %}Views {% else %} View{% endif %}</p>
+        </li>
+    </ul>
+</div>
+
+<a href="{% url 'state_view' i.state.id %}"><p>State: {{ i.state|upper }}</p></a>
+
+<a href="{% url 'report_detail' i.id %}"><p>
+    {% if i.user.first_name and i.user.last_name %}
+<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+{% else %}
+<p>Posted By: Anonymous</p>
+{% endif %}
+<p>LGA: {{ i.lga|upper }}</p>
+<p>Ward: {{ i.ward|upper }}</p>
+<p>Polling Unit: {{ i.polling_unit|upper }}</p>
+<p>Posted On: {{ i.created_on }}</p>
+<p>ID: {{ i.id }}</p>
+</p></a>
+
+<hr><hr>
+
+
+{% empty %}
+<p><b>No Report at the Moment</b></p>
+<hr><hr>
+{% endfor %}
+<br>
+{% if user_video %}
+<h5><b>THE END</b></h5>
+<hr><hr>
+{% endif %}
+</center>
+
+{% endblock content %}

@@ -38,8 +38,7 @@ No User Yet
 
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
-    <source src="{{ i.video.url }}" type="video/mpeg-4">
-    <source src="{{ i.video.url }}" type="video/3gp">
+    <source src="{{ i.video.url }}" type="video/mpeg">
     Your browser does not support this video.
 </video> 
 <br>
@@ -57,18 +56,22 @@ No User Yet
     </ul>
 </div>
 
-<a href="{% url 'state_view' i.state.id %}"><p>State: {{ i.state|upper }}</p></a>
-<a href="{% url 'report_detail' i.id %}"><p>
-    {% if i.user.first_name and i.user.last_name %}
-<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+{% if i.user.first_name and i.user.last_name %}
+<a href="{% url 'user_videos' i.user.pk %}"><p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p></a>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
+
+<a href="{% url 'state_view' i.state.id %}"><p>State: {{ i.state|upper }}</p></a>
+
+<a href="{% url 'report_detail' i.id %}"><p>
+
 <p>LGA: {{ i.lga|upper }}</p>
 <p>Ward: {{ i.ward|upper }}</p>
 <p>Polling Unit: {{ i.polling_unit|upper }}</p>
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
+
 </p></a>
 
 <hr><hr>
@@ -79,7 +82,7 @@ No User Yet
 
 
 <br>
-{% if report > 6 %}
+{% if report.count > 6 %}
 <h5><b><a href="{% url 'reports' %}">MORE REPORTS</a></b></h5>
 </center>
 
