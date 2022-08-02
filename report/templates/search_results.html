@@ -2,16 +2,25 @@
 
 
 {% block content %}
+<br>
+{% if object_list %}
+<h2> Total of  {{ object_list.count }} Search {% if object_list.count > 1 %}Results {% else %}Result {% endif %} for: <span>
+     <b>{{ title }}</b>
+</span></h2>
+ {% else %}
+ <h2> No Search Result for: <span> 
+    <b>{{ title }}</b>
+</span></h2>
+ {% endif %}
 
-<h2>Search results for: <span>
-    {{ title }}
- </span></h2>
 
 
 <center>
     <br>
 {% for i in object_list %}
 
+<h4><p>{{ i.title|upper }}</p></h4>
+<br>
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
     <source src="{{ i.video.url }}" type="video/mpeg-4">
@@ -19,27 +28,46 @@
     Your browser does not support this video.
 </video> 
 <br>
-{% if i.user.first_name and i.user.last_name %}
+
+<div>
+    <ul>
+        <li>
+            <p><small>This report will be taken down if downvotes exceed 1,000</small>
+               |  {{ i.total_downvote }} {% if i.total_downvote > 1 %}Downvotes {% else %} Downvote{% endif %}</p>
+        </li>
+
+        <li>
+            <p> {{i.View_counts.count}} {% if i.View_counts.count > 1 %}Views {% else %} View{% endif %}</p>
+        </li>
+    </ul>
+</div>
+
+
+<a href="{% url 'report_detail' i.id %}"><p>
+    {% if i.user.first_name and i.user.last_name %}
 <p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
-<p>State: {{ i.state }}</p>
-<p>LGA: {{ i.lga }}</p>
-<p>Ward: {{ i.ward }}</p>
-<p>Polling Unit: {{ i.polling_unit }}</p>
-<p>Narration: {{ i.brief_description }}</p>
-<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
-
+<p>State: {{ i.state|upper }}</p>
+<p>LGA: {{ i.lga|upper }}</p>
+<p>Ward: {{ i.ward|upper }}</p>
+<p>Polling Unit: {{ i.polling_unit|upper }}</p>
+<p>Posted On: {{ i.created_on }}</p>
+<p>ID: {{ i.id }}</p>
+</p></a>
 <br><br>
 
-<small>This report will be taken down if downvotes exceed 1,000</small>
-<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
 
-<hr>
+<hr><hr>
 {% empty %}
-<h2><b><p>Sorry No search results for {{ title }}</p></b></h2>
-{% endfor %}
-</center>
+<h2><b><p>Sorry No search result for {{ title }}</p></b></h2>
+<hr><hr>
 
+{% endfor %}
+{% if object_list %}
+<h5><b>THE END</b></h5>
+</center>
+<hr><hr>
+{% endif %}
 {% endblock content %}

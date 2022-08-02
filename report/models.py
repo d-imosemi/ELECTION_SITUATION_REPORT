@@ -71,12 +71,23 @@ class Candidate(models.Model):
         return self.candidate_name 
 
 
+
+class State(models.Model):
+    name = models.CharField(max_length=25)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return self.name 
+
 # UPLOAD .MP4 AND MPEG-4 ONLY AND MAXIMUM SIZE OF VIDEO IS 10MB 
 # CLICK THE LINK TO FREELY REDUCE THE SIZE of YOUR VIDEO  https://www.freeconvert.com/video-compressor
 
 class SituationReport(models.Model):
     STATE = (
-        ('Fct', 'Fct'),
+        ('Federal Capital Territory', 'Federal Capital Territory'),
         ('Abia', 'Abia'),
         ('Adamawa', 'Adamawa'),
        ('Akwa Ibom', ' Akwa Ibom'),
@@ -116,14 +127,15 @@ class SituationReport(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_video')
-    state = models.CharField(max_length=20, choices=STATE)
+    title = models.CharField(max_length=75)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='video_state')
     lga = models.CharField(max_length=20)
     ward = models.CharField(max_length=20)
     polling_unit = models.CharField(max_length=20)
     video = models.FileField(upload_to="report_video/%Y/%m/%d/", validators=(validate_is_mp4, validate_file_size,))
     brief_description = models.TextField(max_length=150, null=True, blank=True)
     published = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name='blog_post', null=True, blank=True)
+    likes = models.ManyToManyField(User, related_name='blog_post', blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -139,3 +151,13 @@ class SituationReport(models.Model):
 
     def get_absolute_url(self):
         return reverse("dashboard")
+
+
+
+class ViewCount(models.Model):
+    video = models.ForeignKey(SituationReport, related_name='View_counts', on_delete=models.CASCADE)
+    ip_address = models.CharField(max_length=50, null=True)
+    session = models.CharField(max_length=50, null=True)
+
+    def __str__(self):
+        return f'{self.ip_address}'

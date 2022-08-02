@@ -92,90 +92,81 @@
     <h2><p><b> {{ i.title|upper }}</b></p></h2>
 {% endfor %}
 
+<center>
   <!--Carousel Wrapper-->
-    <div id="carousel-example-1" class="carousel slide carousel-fade" data-ride="carousel">
-  
-      <!--Indicators-->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel-example-1" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-1" data-slide-to="1"></li>
-      </ol>
-      <!--/.Indicators-->
-  
-      <!--Slides-->
-      <div class="carousel-inner" role="listbox">
-  
-        <!--First slide-->
-        <div class="carousel-item active">
+    <div class="carousel slide carousel-fade" data-ride="carousel">
+
           <!--Mask-->
+          {% for i in candidate %}
           <div class="view">
             <div class="full-bg-img flex-center mask rgba-indigo-light white-text">
               <ul class="animated fadeInUp col-md-12 list-unstyled list-inline">
                 <li>
-                  <h1 class="font-weight-bold text-uppercase">Material Design for Bootstrap 4</h1>
+                  <img src="{{ i.candidate_image.url}}" style="width:10%;height:10;"  alt="{{ i.candidate_name }}"></a>
                 </li>
                 <li>
-                  <p class="font-weight-bold text-uppercase py-4">The most powerful and free UI KIT for Bootstrap</p>
+                  <h1 class="font-weight-bold text-uppercase">{{ i.candidate_name|upper }}</h1>
+                </li>
+                <li>
+                  <p class="font-weight-bold text-uppercase py-4">{{i.candidate_party|upper}}</p>
                 </li>
                 <li class="list-inline-item">
-                  <a target="_blank" href="https://mdbootstrap.com/docs/standard/getting-started/installation/" class="btn btn-unique btn-lg btn-rounded mr-0">Sign up!</a>
+                  <a target="_blank" href="{{ i.know_more }}" class="btn btn-primary btn-rounded btn-lg">About</a>
                 </li>
-                <li class="list-inline-item">
-                  <a target="_blank" href="https://mdbootstrap.com/docs/standard/" class="btn btn-cyan btn-lg btn-rounded ml-0">Learn more</a>
-                </li>
+                
               </ul>
             </div>
           </div>
-          <!--/.Mask-->
-        </div>
-        <!--/.First slide-->
-  
-        <!--Second slide -->
-        <div class="carousel-item">
-          <!--Mask-->
-          <div class="view">
-            <div class="full-bg-img flex-center mask rgba-purple-light white-text">
-              <ul class="animated fadeInUp col-md-12 list-unstyled">
-                <li>
-                  <h1 class="font-weight-bold text-uppercase">Lots of tutorials at your disposal</h1>
-                </li>
-                <li>
-                  <p class="font-weight-bold text-uppercase py-4">And all of them are FREE!</p>
-                </li>
-                <li>
-                  <a target="_blank" href="https://mdbootstrap.com/docs/standard/bootstrap-5-tutorial/" class="btn btn-primary btn-rounded btn-lg">Start learning</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!--/.Mask-->
-        </div>
-        <!--/.Second slide -->
-  
-      </div>
-      <!--/.Slides-->
-  
-      <!--Controls-->
-      <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carousel-example-1" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-      <!--/.Controls-->
-    </div>
+          {% endfor %}
     <!--/.Carousel Wrapper-->
+
+  </center>
+    
+<br><hr><hr>
+
 
     {% block content %}
     
     
     {% endblock content %}
+<br>
+    <center>
+    <div>
+      <section>
+        <h3>        <p><b>PLEASE DONATE</b></p>        </h3>
+
+        <p><i>This project is fully self-funded.</i></p>
+        <p><i>Please Support to keep the project alive</i></p>
+        <hr>
+        <hr>
+        <p><b>Donate with Card:</b> <a class="btn btn-primary" href="https://paystack.com/pay/tr4gfehvzi">Paystack</a></p>
 
 
-  
-   
+        <P><b>BTC Address: </b> <input onclick="myFunction()" type="text" value="bc1q64cmkx9ylccaehz04nmh58q3jqqdemv72q9jwd" id="myInput"><small> Tap to Copy</small></P>
+        <P><b>ETH Address: </b> <input onclick="ethFunction()" type="text" value="0x6978D059F3015f98b59EC8Af7aC4f6DA8C9E9671" id="myInput1"><small> Tap to Copy</small></P>
+        <P><b>USDT Address: </b> <input onclick="usdtFunction()" type="text" value="TSUMViFEKiN7vPuUMo4jxKH9tWTcyfkPjh" id="myInput2"><small> Tap to Copy</small></P>
+
+
+      </section>
+    </div>
+  </center>
+
+    <hr>
+    <hr>
+    <br>
+    <center>
+    <footer class="footer-section">
+
+      <p><b>FOLLOW US</b></p>
+      <li><a href="#"><i class="bi bi-twitter"></i></a></li>
+      <br>
+          <div class="footer-copyright">
+            <p>&copy; <script>document.write(new Date().getFullYear());</script>,
+             All rights reserved. Designed By Election Situation Report Team</p>
+          </div>
+          
+    </footer>
+  </center>
 
     <script src="{% static 'assets/js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
@@ -184,6 +175,57 @@
     <script src="{% static 'assets/js/ResizeSensor.min.js' %}"></script>
     <script src="{% static 'assets/js/theia-sticky-sidebar.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <script>
+    function myFunction() {
+      /* Get the text field */
+      var copyText = document.getElementById("myInput");
+    
+
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+       /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    } 
+
+    function ethFunction() {
+      /* Get the text field */
+      var copyText = document.getElementById("myInput1");
+
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+       /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    } 
+
+    function usdtFunction() {
+      /* Get the text field */
+      var copyText = document.getElementById("myInput2");
+
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+       /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    } 
+  </script>
 </body>
 </html>
 

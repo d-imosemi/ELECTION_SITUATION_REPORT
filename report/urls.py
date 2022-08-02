@@ -11,6 +11,9 @@ urlpatterns = [
 
     path('report/detail/<int:pk>/', ReportDetail, name='report_detail'),
 
+    path('state/view/<int:pk>/', StateView, name='state_view'),
+
+
     path('like_post/<int:pk>/', LikeView, name='like_post'),
 
 ]

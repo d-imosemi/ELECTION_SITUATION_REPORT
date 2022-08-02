@@ -2,12 +2,18 @@
 
 
 {% block content %}
+<h5><p>All States</p></h5>
+<p><small>Happenings across all States</small></p>
+{% for i in states %}
+<a href="{% url 'state_view' i.id %}" class="btn btn-primary btn-rounded btn-sm"> {{ i }} </a>
+{%endfor%}
+
 <center>
     <br>
     {% if count %}  
     <h3><b>Total of {{ count }} Report{{ count|pluralize }}</b></h3>                  
 {% else %}
-No Video Yet
+<h3><b>No Report Yet</b></h3>
 {% endif %}
 
 <br>
@@ -26,7 +32,9 @@ No User Yet
 
 <br>
 <h2><p>Recent Happenings Across Nigeria</p></h2>
-{% for i in report %}
+{% for i in report|slice:'0:6' %}
+<br>
+<h4><p>{{ i.title|upper }}</p></h4>
 
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
@@ -35,27 +43,48 @@ No User Yet
     Your browser does not support this video.
 </video> 
 <br>
-{% if i.user.first_name and i.user.last_name %}
+
+<div>
+    <ul>
+        <li>
+            <p><small>This report will be taken down if downvotes exceed 1,000</small>
+               |  {{ i.total_downvote }} {% if i.total_downvote > 1 %}Downvotes {% else %} Downvote{% endif %}</p>
+        </li>
+
+        <li>
+            <p> {{i.View_counts.count}} {% if i.View_counts.count > 1 %}Views {% else %} View{% endif %}</p>
+        </li>
+    </ul>
+</div>
+
+
+<a href="{% url 'report_detail' i.id %}"><p>
+    {% if i.user.first_name and i.user.last_name %}
 <p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
-<p>State: {{ i.state }}</p>
-<p>LGA: {{ i.lga }}</p>
-<p>Ward: {{ i.ward }}</p>
-<p>Polling Unit: {{ i.polling_unit }}</p>
-<p>Narration: {{ i.brief_description }}</p>
-<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
+<p>State: {{ i.state|upper }}</p>
+<p>LGA: {{ i.lga|upper }}</p>
+<p>Ward: {{ i.ward|upper }}</p>
+<p>Polling Unit: {{ i.polling_unit|upper }}</p>
+<p>Posted On: {{ i.created_on }}</p>
+<p>ID: {{ i.id }}</p>
+</p></a>
 
-
-<br><br>
-<small>This report will be taken down if downvotes exceed 1,000</small>
-<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
-
-<hr>
-
-
+<hr><hr>
+{% empty %}
+<b><p>Sorry No Report Yet...</p></b>
+<hr><hr>
 {% endfor %}
+
+
+<br>
+{% if report > 6 %}
+<h5><b><a href="{% url 'reports' %}">MORE REPORTS</a></b></h5>
 </center>
 
+<hr>
+<hr>
+{% endif %}
 {% endblock content %}

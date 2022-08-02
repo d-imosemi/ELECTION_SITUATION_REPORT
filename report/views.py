@@ -1,3 +1,4 @@
+from ipaddress import ip_address
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.db.models import Q
@@ -15,12 +16,13 @@ from report.models import *
 # Create your views here.
 
 def index(request):
-    report = SituationReport.objects.filter(published=True)
+    report = SituationReport.objects.filter(published=True)[0:6]
     quote = DailyInspiration.objects.all()[0:1]
     header_title = HeaderTitle.objects.all()[0:1]
     candidate = Candidate.objects.all()[0:4]
     count =  SituationReport.objects.filter(published=True).count()
     users = User.objects.all().count()
+    states = State.objects.all()
 
 
     context = {
@@ -30,9 +32,26 @@ def index(request):
         'candidate' : candidate,
         'count' : count,
         'users' : users,
+        'states': states,
           
     }
     return render(request, 'index.html', context)
+
+
+
+
+
+def StateView(request, pk):
+    state = State.objects.get(id=pk)
+    state_count = State.objects.filter(id=pk).count()
+
+    context = {
+        'state': state,
+        'state_count': state_count,
+    }
+    return render(request, 'state_view.html', context)
+
+
 
 
 class AllReports(ListView):
@@ -46,14 +65,18 @@ class AllReports(ListView):
 
 
 
-
-
-
-
 def ReportDetail(request, pk):
     template_name = 'report_detail.html'
     report = get_object_or_404(SituationReport, pk=pk, published=True)
     
+    
+    ip = request.META['REMOTE_ADDR']
+    if not ViewCount.objects.filter(video=report, session=request.session.session_key):
+        view = ViewCount(video=report, ip_address=ip, session=request.session.session_key)
+        view.save()
+    video_views = ViewCount.objects.filter(video=report).count()
+
+
     is_liked = False
     if report.likes.filter(id=request.user.id).exists():
        is_liked = True
@@ -67,18 +90,16 @@ def ReportDetail(request, pk):
             'report': report,
             'is_liked': is_liked,
             'total_likes': report.total_downvote(),
+            'view_count' : video_views
         }
     )
-
-
-
 
 
 
 @method_decorator(login_required, name='dispatch')
 class AddVideo(CreateView):
     model = SituationReport
-    fields = ('state', 'lga', 'ward', 'polling_unit', 'video', 'brief_description',)
+    fields = ('title', 'state', 'lga', 'ward', 'polling_unit', 'video', 'brief_description',)
     queryset: SituationReport.objects.filter(published=False)
     template_name = "dashboard.html"
 
@@ -99,7 +120,6 @@ class AddVideo(CreateView):
         obj.user = self.request.user
         obj.save()
         return super().form_valid(form)
-
 
 
 
@@ -154,8 +174,8 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         if query:
             object_list = post_filter.filter(
-                Q(state__icontains=query) | Q(lga__icontains=query) |
-                Q(polling_unit__icontains=query)
+                Q(title__icontains=query) | Q(lga__icontains=query) |
+                Q(polling_unit__icontains=query) | Q(state__name__icontains=query)
             )
         else:
             object_list = SituationReport.objects.filter(published=True)

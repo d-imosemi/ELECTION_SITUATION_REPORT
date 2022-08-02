@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
+{% block title %}
+        Election Situation Report {{ state }}
+  {% endblock title %}
 
 {% block content %}
 <center>
     <br>
     {% if count %}  
-    <h3><b>Total of {{ count }} Report{{ count|pluralize }}</b></h3>                  
+    <h3><b>Total of {{ state_count }} Report{{ state_count|pluralize }}</b></h3>                  
 {% else %}
 <h3><b>No Report Yet</b></h3>
 {% endif %}
@@ -23,8 +26,8 @@ No User Yet
 {% endif %}
 
 <br>
-<h2><p>All Reports Across Nigeria</p></h2>
-{% for i in object_list %}
+<h2><p>Reports for {{ state }}</p></h2>
+{% for i in state.video_state.all  %}
 <br>
 <h4><p>{{ i.title|upper }}</p></h4>
 <video width="320" height="240" controls>
@@ -65,8 +68,9 @@ No User Yet
 
 <hr><hr>
 {% empty %}
-<b><p>Sorry No Report Yet...</p></b>
+<b><p>Sorry No Report Yet for {{ state }}...</p></b>
 <a class='btn btn-secondary' href="{% url 'dashboard' %}">Report</a>
+
 <hr><hr>
 {% endfor %}
 

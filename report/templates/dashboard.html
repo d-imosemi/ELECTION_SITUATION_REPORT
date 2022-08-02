@@ -8,6 +8,10 @@ Upload Report
 <div class="dash-content text-center form-group">
 
     <h1>Upload Video...</h1>
+    <p><small>UPLOAD .MP4 OR .MPEG ONLY</small></p>
+    <p><small>MAXIMUM VIDEO SIZE IS 10MB</small></p>
+    <p><small>CLICK THE LINK TO FREELY COMPRESS YOUR VIDEO <a target="_blank" class="btn btn-primary btn-sm" href="https://www.freeconvert.com/video-compressor">Compress</a></small></p>
+ 
     <br/>
     <form method='post' enctype="multipart/form-data">
         {% csrf_token %}
@@ -38,11 +42,12 @@ Upload Report
     
 
     <br>
-<h2><p>Your Report{{ user_video|pluralize }}</p></h2>
+<h2><p>My Report{{ user_video|pluralize }}</p></h2>
 
 
 {% for i in user_video  %}
-
+<br>
+<h4><p>{{ i.title|upper }}</p></h4>
 <video width="320" height="240" controls>
     <source src="{{ i.video.url }}" type="video/mp4">
     <source src="{{ i.video.url }}" type="video/mpeg-4">
@@ -50,25 +55,47 @@ Upload Report
     Your browser does not support this video.
 </video>
 <br>
-<hr>
-<p>State: {{ i.state }}</p>
-<p>LGA: {{ i.lga }}</p>
-<p>Ward: {{ i.ward }}</p>
-<p>Polling Unit: {{ i.polling_unit }}</p>
-<p>Narration: {{ i.brief_description }}</p>
-<a href="{% url 'report_detail' i.id %}"><p>Posted On: {{ i.created_on }}</p></a>
 
-<br><br>
-<small>This report will be taken down if downvotes exceed 1,000</small>
-<p>{{ i.total_downvote }} Downvote{{ i.total_downvote|pluralize }}</p>
+<div>
+    <ul>
+        <li>
+            <p><small>This report will be taken down if downvotes exceed 1,000</small>
+               |  {{ i.total_downvote }} {% if i.total_downvote > 1 %}Downvotes {% else %} Downvote{% endif %}</p>
+        </li>
 
-<hr>
+        <li>
+            <p> {{i.View_counts.count}} {% if i.View_counts.count > 1 %}Views {% else %} View{% endif %}</p>
+        </li>
+    </ul>
+</div>
+
+
+<a href="{% url 'report_detail' i.id %}"><p>
+    {% if i.user.first_name and i.user.last_name %}
+<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+{% else %}
+<p>Posted By: Anonymous</p>
+{% endif %}
+<p>State: {{ i.state|upper }}</p>
+<p>LGA: {{ i.lga|upper }}</p>
+<p>Ward: {{ i.ward|upper }}</p>
+<p>Polling Unit: {{ i.polling_unit|upper }}</p>
+<p>Posted On: {{ i.created_on }}</p>
+<p>ID: {{ i.id }}</p>
+</p></a>
+
+
+<hr><hr>
 
 
 {% empty %}
 <p><b>You do not have any Report at the Moment</b></p>
-
+<hr><hr>
 {% endfor %}
-
+<br>
+{% if user_video %}
+<h5><b>THE END</b></h5>
+<hr><hr>
+{% endif %}
 
 {% endblock content %}
