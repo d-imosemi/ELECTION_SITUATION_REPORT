@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     
     'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,12 @@ MEDIA_ROOT  = os.path.join(BASE_DIR, '/media/')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+
+
 
 SESSION_COOKIE_AGE = 36000
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

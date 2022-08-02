@@ -82,50 +82,10 @@ class State(models.Model):
     def __str__(self):
         return self.name 
 
-# UPLOAD .MP4 AND MPEG-4 ONLY AND MAXIMUM SIZE OF VIDEO IS 10MB 
-# CLICK THE LINK TO FREELY REDUCE THE SIZE of YOUR VIDEO  https://www.freeconvert.com/video-compressor
+
+
 
 class SituationReport(models.Model):
-    STATE = (
-        ('Federal Capital Territory', 'Federal Capital Territory'),
-        ('Abia', 'Abia'),
-        ('Adamawa', 'Adamawa'),
-       ('Akwa Ibom', ' Akwa Ibom'),
-        ('Anambra', 'Anambra'),
-        ('Bauchi', 'Bauchi'),
-        ('Bayelsa', 'Bayelsa'),
-        ('Benue', 'Benue'),
-        ('Borno', 'Borno'),
-        ('Cross River', 'Cross River'),
-        ('Delta', 'Delta'),
-        ('Ebonyi', 'Ebonyi'),
-        ('Edo', 'Edo'),
-        ('Ekiti', 'Ekiti'),
-        ('Enugu', 'Enugu'),
-        ('Gombe', 'Gombe'),
-        ('Imo', 'Imo'),
-        ('Jigawa', 'Jigawa'),
-        ('Kaduna', 'Kaduna'),
-        ('Kano', 'Kano'),
-        ('Katsina', 'Katsina'),
-        ('Kebbi', 'Kebbi'),
-        ('Kogi', 'Kogi'),
-        ('Kwara', 'Kwara'),
-        ('Lagos', 'Lagos'),
-        ('Nasarawa', 'Nasarawa'),
-        ('Niger', 'Niger'),
-        ('Ogun', 'Ogun'),
-        ('Ondo', 'Ondo'),
-        ('Osun', 'Osun'),
-        ('Oyo', 'Oyo'),
-        ('Plateau', 'Plateau'),
-        ('Rivers', 'Rivers'),
-        ('Sokoto', 'Sokoto'),
-        ('Taraba', 'Taraba'),
-        ('Yobe', 'Yobe'),
-        ('Zamfara', 'Zamfara'),
-    )
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_video')
     title = models.CharField(max_length=75)
     state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='video_state')

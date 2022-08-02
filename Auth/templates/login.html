@@ -6,7 +6,7 @@ Login
 {% block content %} 
 
 <div class="dash-content text-center form-group">
-
+<center>
     <h1>Login...</h1>
     <br/>
     <form method='post'>
@@ -35,6 +35,7 @@ Login
         <button type='submit' class='btn btn-secondary'>Login</button>
     </form>
     <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p>
-    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+    <p><a href="{% url 'password_reset' %}">Forgotten your password?</a></p>
     <hr><hr>
+</center>
 {% endblock content %}

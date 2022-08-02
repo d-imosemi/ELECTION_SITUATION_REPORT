@@ -1,4 +1,3 @@
-from ipaddress import ip_address
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.db.models import Q
@@ -43,11 +42,9 @@ def index(request):
 
 def StateView(request, pk):
     state = State.objects.get(id=pk)
-    state_count = State.objects.filter(id=pk).count()
 
     context = {
         'state': state,
-        'state_count': state_count,
     }
     return render(request, 'state_view.html', context)
 

@@ -1,13 +1,11 @@
 from django.shortcuts import redirect
-from .forms import EditProfileForm, SignUpForm
+from .forms import EditProfileForm, LoginForm, SignUpForm
 from django.contrib.auth import logout 
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.views import PasswordChangeView, LoginView
 
 
-from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -24,24 +22,37 @@ class UserRegisterView(generic.CreateView):
 			self.request, 'Registered Successfully')
 		return reverse_lazy("login")
 
+	def dispatch(self, *args, **kwargs):
+		if self.request.user.is_authenticated:
+			messages.warning(self.request, "Already logged In")
+			return redirect('home')
+		return super().dispatch(*args, **kwargs)
+
 
 
 class UserLoginView(LoginView):
+	form_class = LoginForm
 	template_name = 'login.html'
 	redirect_authenticated_user = True
 
 	def get_success_url(self):
 		messages.success(
-			self.request, 'Logged in Successfully')
+			self.request, 'Logged In')
 		return reverse_lazy("dashboard")
 
+	def dispatch(self, *args, **kwargs):
+		if self.request.user.is_authenticated:
+			messages.warning(self.request, "Already logged In")
+			return redirect('home')
+		return super().dispatch(*args, **kwargs)
 
 
 
 def logout_request(request):
 	logout(request)
-	messages.info(request, "You have successfully logged out.") 
+	messages.info(request, "Logged Out.") 
 	return redirect("home")
+	
 
 
 
@@ -51,7 +62,7 @@ class UserEditView(generic.UpdateView):
     template_name = 'edit_setting.html'
     def get_success_url(self):
         messages.success(
-            self.request, 'Profile Edited Successfully')
+            self.request, 'Profile Edited')
         return reverse_lazy("dashboard")
 
     
@@ -68,5 +79,5 @@ class PasswordChangeView(PasswordChangeView):
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Password changed Successfully')
+            self.request, 'Password Changed')
         return reverse_lazy("dashboard")

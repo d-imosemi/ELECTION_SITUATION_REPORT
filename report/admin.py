@@ -4,7 +4,7 @@ from .models import *
 
 class SituationReportAdmin(admin.ModelAdmin):
     list_filter = ['user', 'state', 'created_on',]
-    list_display = ['user', 'video', 'published', 'total_downvote', 'created_on',]
+    list_display = ['id', 'user', 'video', 'published', 'total_downvote', 'created_on',]
     actions = ['approve_video']
 
     def approve_Video(self, request, queryset):

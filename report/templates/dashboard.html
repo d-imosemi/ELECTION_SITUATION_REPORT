@@ -7,11 +7,15 @@ Upload Report
 
 <div class="dash-content text-center form-group">
 
-    <h1>Upload Video...</h1>
+    <h1>Upload Report...</h1>
     <p><small>UPLOAD .MP4 OR .MPEG ONLY</small></p>
     <p><small>MAXIMUM VIDEO SIZE IS 10MB</small></p>
     <p><small>CLICK THE LINK TO FREELY COMPRESS YOUR VIDEO <a target="_blank" class="btn btn-primary btn-sm" href="https://www.freeconvert.com/video-compressor">Compress</a></small></p>
- 
+    
+   <p id="blink"><b>NOTE</b></p>
+    <p><small><b>AT THE START OF YOUR REPORT, SAY YOUR CURRENT</b></small></p>
+    <p><small><b>LOCATION, DATA AND TIME FOR YOUR REPORT TO BE APPROVED PROMPTLY</b></small></p>
+
     <br/>
     <form method='post' enctype="multipart/form-data">
         {% csrf_token %}
@@ -83,7 +87,7 @@ Upload Report
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
 </p></a>
-
+<p><b>Status</b>: {% if i.published %} Approved {% else %} Awaiting Approval {% endif %}</p>
 
 <hr><hr>
 

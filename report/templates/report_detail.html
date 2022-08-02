@@ -29,7 +29,7 @@
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
-<p>State: {{ report.state|upper }}</p>
+<a href="{% url 'state_view' report.state.id %}"><p>State: {{ report.state|upper }}</p></a>
 <p>LGA: {{ report.lga|upper }}</p>
 <p>Ward: {{ report.ward|upper }}</p>
 <p>Polling Unit: {{ report.polling_unit|upper }}</p>

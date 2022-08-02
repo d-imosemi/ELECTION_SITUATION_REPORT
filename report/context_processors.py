@@ -7,7 +7,9 @@ def header_context(request):
         'count' : SituationReport.objects.filter(published=True).count(),
         'users' : User.objects.all().count(),
         'header_title': HeaderTitle.objects.all()[0:1],
-            'candidate' : Candidate.objects.all()[0:4],
+        'candidate' : Candidate.objects.all()[0:4],
+        'vid_state' : SituationReport.objects.filter(published=True),
+
 
 
 

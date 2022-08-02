@@ -7,14 +7,14 @@
 {% block content %}
 <center>
     <br>
-    {% if count %}  
-    <h3><b>Total of {{ state_count }} Report{{ state_count|pluralize }}</b></h3>                  
+    <br>
+    {% if state.video_state.all %}  
+    <h3><b>Total of {{state.video_state.all.count}} Report{{ state.video_state.all.count|pluralize }} for {{ state }}</b></h3>                  
 {% else %}
-<h3><b>No Report Yet</b></h3>
+<h3><b>No Report Yet for {{ state }}</b></h3>
 {% endif %}
 
 <br>
-
 {% if users %}
 {% if user.is_authenticated %}
 <h5><b>Total of {{ users }} Reporter{{ users|pluralize }}</b></h5>
@@ -27,7 +27,13 @@ No User Yet
 
 <br>
 <h2><p>Reports for {{ state }}</p></h2>
+
+
+{% if state.video_state.all %}
+
 {% for i in state.video_state.all  %}
+
+{% if i.published == True %}
 <br>
 <h4><p>{{ i.title|upper }}</p></h4>
 <video width="320" height="240" controls>
@@ -64,15 +70,24 @@ No User Yet
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
 </p></a>
-
+<p>ID: {{ i.published }}</p>
 
 <hr><hr>
+{% endif %}
 {% empty %}
 <b><p>Sorry No Report Yet for {{ state }}...</p></b>
 <a class='btn btn-secondary' href="{% url 'dashboard' %}">Report</a>
 
 <hr><hr>
+
 {% endfor %}
+
+{% else %}
+<hr><hr>
+<b><p>Sorry No Report Yet for {{ state }}...</p></b>
+<a class='btn btn-secondary' href="{% url 'dashboard' %}">Report</a>
+<hr><hr>
+{% endif %}
 
 
 <nav aria-label="Page navigation example">
