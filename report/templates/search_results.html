@@ -41,7 +41,7 @@
     </ul>
 </div>
 {% if i.user.first_name and i.user.last_name %}
-<a href="{% url 'user_videos' i.user.pk %}"><p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p></a>
+<a href="{% url 'user_videos' i.user.pk %}"><p>Posted By: <i>@{{ i.user.username }}</i> || <small>{{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</small></p></a>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}

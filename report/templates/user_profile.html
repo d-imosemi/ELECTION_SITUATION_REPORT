@@ -4,16 +4,15 @@
 {% block content %}
 
 <br>
-{{ user }}
 <center>
     <h5><p>
-    {% for i in user %}
+    {% for i in user_profile %}
     {{ i.last_name|upper }} {{ i.first_name|upper }}
     Profile
      {% endfor %}
 </b></p></h5>
-{% for i in user %}
-<p>Username : {{i.username}}</p>
+{% for i in user_profile %}
+<p>Username : @{{i.username}}</p>
 <p>Email : <a href="mailto:{{ i.email }}">{{ i.email }}</a></p>
 {% endfor %}
 <br>
@@ -25,11 +24,11 @@
 
 <center>
     <h2><p>
-        {% for i in user %}
+        {% for i in user_profile %}
         {{ i.last_name|upper }} {{ i.first_name|upper }}
          Report{{ user_videos|pluralize }}</p></h2>
          {% endfor %}
-
+<hr><hr>
 
     {% for i in user_videos  %}
 <br>
@@ -58,7 +57,7 @@
 
 <a href="{% url 'report_detail' i.id %}"><p>
     {% if i.user.first_name and i.user.last_name %}
-<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+    <p>Posted By: <i>@{{ i.user.username }}</i> || <small>{{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</small></p>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
@@ -77,7 +76,7 @@
 <hr><hr>
 {% endfor %}
 <br>
-{% if user_video %}
+{% if user_videos %}
 <h5><b>THE END</b></h5>
 <hr><hr>
 {% endif %}

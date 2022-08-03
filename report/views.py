@@ -125,10 +125,10 @@ class AddVideo(CreateView):
 
 def UserProfile(request, pk):
     user_videos = SituationReport.objects.filter(user=pk, published=True)
-    user = User.objects.filter(id=pk)
+    user_profile = User.objects.filter(id=pk)
     context = {
         'user_videos': user_videos,
-        'user': user,
+        'user_profile': user_profile,
     }
     return render(request, 'user_profile.html', context)
 

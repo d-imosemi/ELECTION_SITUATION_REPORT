@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                                 
                 'report.context_processors.header_context', ### ADDED LINE
+                
             ],
         },
     },

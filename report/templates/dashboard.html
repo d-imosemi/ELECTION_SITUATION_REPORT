@@ -12,7 +12,7 @@ Upload Report
 <p><b>Last Name:</b> {{ user.last_name|upper }}</p>
 <p><b>First Name:</b> {{ user.first_name|upper }}</p>
 <p><b>Username:</b> @{{user.username}}</p>
-<p><b>Email:</b> <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+<p><b>Email:</b> {{ user.email }}</p>
 {% endif %}
 <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit profile</a>
 <br>
@@ -92,7 +92,7 @@ Upload Report
 
 
     {% if i.user.first_name and i.user.last_name %}
-<p>Posted By: {{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</p>
+    <p>Posted By: <i>@{{ i.user.username }}</i> || <small>{{ i.user.first_name|upper }} {{ i.user.last_name|upper }}</small></p>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}

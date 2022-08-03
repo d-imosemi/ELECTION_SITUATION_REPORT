@@ -24,8 +24,7 @@
 
 <hr>
 {% if report.user.first_name and report.user.last_name %}
-<a href="{% url 'user_videos' report.user.pk %}"><p>Posted By: {{ report.user.first_name|upper }} {{ report.user.last_name|upper }}</p></a>
-
+<a href="{% url 'user_videos' report.user.pk %}"><p>Posted By: <i>@{{ report.user.username }}</i> || <small>{{ report.user.first_name|upper }} {{ report.user.last_name|upper }}</small></p></a>
 {% else %}
 <p>Posted By: Anonymous</p>
 {% endif %}
