@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 
 {% block content %}
@@ -16,7 +17,14 @@
     Your browser does not support this video.
 </video> 
 <br>
-<br><br>
+<p>Share Now:</p>
+    <ul>
+    <li><a class="social-share facebook"><img src="{% static 'assets/images/facebook.png' %}" alt="Share Page on facebook"></a></li>
+    <li><a class="social-share twitter"><img src="{% static 'assets/images/twitter.png' %}" alt="share page on twitter"></a></li>
+    </ul>
+<br>
+
+
 <small>This report will be taken down if downvotes exceed 1,000</small>
 <span ><p>{{ total_likes }} {% if total_likes > 1 %}Downvotes {% else %} Downvote{% endif %}
     {% if request.user.is_authenticated %}
