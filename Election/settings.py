@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'Election.wsgi.application'
 
 if DEBUG:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
 
 else:
     DATABASES = { 'default': dj_database_url.config(conn_max_age=500) }
@@ -145,10 +145,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT  = os.path.join(BASE_DIR, '/media/')
-
+if DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT  = os.path.join(BASE_DIR, '/media/')
+else:
+    MEDIA_URL = '/static/media/'
+    MEDIA_ROOT  = os.path.join(BASE_DIR, 'static/media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -158,6 +160,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
 
 RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 
