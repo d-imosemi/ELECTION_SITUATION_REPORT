@@ -1,7 +1,8 @@
+import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
@@ -69,15 +70,22 @@ def ReportDetail(request, pk):
     
     
     ip = request.META['REMOTE_ADDR']
-    if not ViewCount.objects.filter(video=report, session=request.session.session_key):
-        view = ViewCount(video=report, ip_address=ip, session=request.session.session_key)
+    if not ViewCount.objects.filter(video=report, session=request.user.id):
+
+        view = ViewCount(video=report, ip_address=ip, session=request.user.id)
         view.save()
+
     video_views = ViewCount.objects.filter(video=report).count()
 
 
     is_liked = False
-    if report.likes.filter(id=request.user.id).exists():
+    if report.dislike.filter(id=request.user.id).exists():
        is_liked = True
+
+    upvote = False
+    if report.like.filter(id=request.user.id).exists():
+       upvote = True
+
     if report.total_downvote() > 1000:
         report.delete()
         return redirect('home')
@@ -88,7 +96,9 @@ def ReportDetail(request, pk):
             'report': report,
             'is_liked': is_liked,
             'total_likes': report.total_downvote(),
-            'view_count' : video_views
+            'total_upvote' : report.total_upvote(),
+            'view_count' : video_views,
+            'upvote' : upvote,
         }
     )
 
@@ -136,42 +146,92 @@ def UserProfile(request, pk):
 
 
 
+# @login_required
+# def LikeView(request, pk):
+#     post = get_object_or_404(SituationReport, id=request.POST.get('post_id'))
 
-@login_required
-def LikeView(request, pk):
-    post = get_object_or_404(SituationReport, id=request.POST.get('post_id'))
+#     liked = False
+#     if post.dislike.filter(id=request.user.id).exists():
+#         post.dislike.remove(request.user)
+#         liked = False
+#     else:
+#         post.dislike.add(request.user)
+#         liked = True
 
-    liked = False
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-        liked = False
-    else:
-        post.likes.add(request.user)
-        liked = True
+#     return HttpResponseRedirect(reverse('report_detail', args=[str(pk)]))
 
-    return HttpResponseRedirect(reverse('report_detail', args=[str(pk)]))
 
 # @login_required
-# def LikeView(request):
+# def UpvoteView(request, pk):
+#     post = get_object_or_404(SituationReport, id=request.POST.get('post_id'))
 
-#     post = get_object_or_404(SituationReport, id=request.POST.get('id'))    
-#     is_liked = False
-#     if post.likes.filter(id=request.user.id).exists():
-#         post.likes.remove(request.user)
-#         is_liked = False
-       
+#     upvote = False
+#     if post.like.filter(id=request.user.id).exists():
+#         post.like.remove(request.user)
+#         upvote = False
 #     else:
-#         post.likes.add(request.user)
-#         is_liked = True
+#         post.like.add(request.user)
+#         upvote = True
+
+#     return HttpResponseRedirect(reverse('report_detail', args=[str(pk)]))
+
+
+@login_required
+def DownVoteView(request):
+
+    post = get_object_or_404(SituationReport, id=request.POST.get('id'))    
+
+    is_upvote = False
+    if post.like.filter(id=request.user.id).exists():
+        post.like.remove(request.user)
+        is_upvote = False
+
+    is_dislike = False
+    if post.dislike.filter(id=request.user.id).exists():
+        post.dislike.remove(request.user)
+        is_dislike = False
+    
+    else:
+        post.dislike.add(request.user)
+        is_dislike = True
         
-#     context = {
-#         'post': post,
-#         'is_liked': is_liked,
-#         'total_likes': post.total_likes(),
-#     }
-#     if request.is_ajax():
-#         html = render_to_string('like_section.html', context, request=request)
-#         return JsonResponse({'form': html})
+    data = {
+        'post': post,
+        'is_dislike': is_dislike,
+        'total_likes': post.total_downvote(),
+    }
+    if request.is_ajax():
+        html = render_to_string('like_section.html', data, request=request)
+        return JsonResponse({'form': html})
+
+@login_required
+def UpVoteView(request):
+
+    post = get_object_or_404(SituationReport, id=request.POST.get('id'))    
+
+    is_dislike = False
+    if post.dislike.filter(id=request.user.id).exists():
+        post.dislike.remove(request.user)
+        is_dislike = False
+
+
+    is_upvote = False
+    if post.like.filter(id=request.user.id).exists():
+        post.like.remove(request.user)
+        is_upvote = False
+    
+    else:
+        post.like.add(request.user)
+        is_upvote = True
+        
+    data = {
+        'post': post,
+        'is_upvote': is_upvote,
+        'total_upvote': post.total_upvote(),
+    }
+    if request.is_ajax():
+        html = render_to_string('like_section.html', data, request=request)
+        return JsonResponse({'form': html})
 
 
 

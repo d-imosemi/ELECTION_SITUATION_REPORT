@@ -18,7 +18,47 @@
 <br>
 <br><br>
 <small>This report will be taken down if downvotes exceed 1,000</small>
-<span ><p>{{ total_likes }} {% if total_likes > 1 %}Downvotes {% else %} Downvote{% endif %}</p></span>
+<span ><p>{{ total_likes }} {% if total_likes > 1 %}Downvotes {% else %} Downvote{% endif %}
+    {% if request.user.is_authenticated %}
+
+    <form action="{% url 'downvote_post' %}" method="POST" class="like-form" id="{{ report.id }}">
+        {% csrf_token %}
+            {% if is_liked %}
+            <small>Cancel?</small>
+        <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-success">Cancel &#128473;</button>
+            {% else %}
+            <small>Downvote?</small>
+        <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-danger">Downvote &darr;</button>
+            {% endif %}
+    </form>
+    {% else %}
+<small>Is this video fake?</small>
+<a class="btn btn-danger" href="{% url 'login' %}">Fake</a>
+<hr>
+{% endif %}
+</p></span>
+
+
+<span ><p>{{ total_upvote }} {% if total_upvote > 1 %}Upvotes {% else %} Upvote{% endif %}
+    {% if request.user.is_authenticated %}
+
+    <form action="{% url 'upvote_post' %}" method="POST" class="like-form" id="{{ report.id }}">
+        {% csrf_token %}
+            {% if upvote %}
+            <small>Cancel?</small>
+        <button type="submit" id="upvote" name="post_id" value="{{ report.id }}" class="btn btn-danger">Cancel &#128473; </button>
+            {% else %}
+            <small>Upvote?</small>
+        <button type="submit" id="upvote" name="post_id" value="{{ report.id }}" class="btn btn-success">Upvote &uarr;</button>
+            {% endif %}
+    </form>
+    {% else %}
+    <small>Is this video fake?</small>
+    <a class="btn btn-danger" href="{% url 'login' %}">Fake</a>
+    <hr>
+    {% endif %}
+</p></span>
+
 <p>{{ view_count }} View{{ view_count|pluralize }}</p>
 
 
@@ -39,24 +79,17 @@
 <hr>
 
 
-{% if request.user.is_authenticated %}
-<form action="{% url 'like_post' report.id%}" method="POST" class="like-form">
-    {% csrf_token %}
-        {% if is_liked %}
-        <small>Is this video real?</small>
-    <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-success">Real</button>
-        {% else %}
-        <small>Is this video fake?</small>
-    <button type="submit" id="like" name="post_id" value="{{ report.id }}" class="btn btn-danger">Fake</button>
-        {% endif %}
-</form>
-{% else %}
-<small>Is this video fake?</small>
-<a class="btn btn-danger" href="{% url 'login' %}">Fake</a>
-{% endif %}
-<hr>
+
+
+
+<br>
+
+
+
+<br>
+
+
 <hr>
 </center>
-
 
 {% endblock content %}

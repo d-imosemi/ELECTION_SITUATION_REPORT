@@ -15,7 +15,12 @@ urlpatterns = [
 
     path('reporter/Profile/<int:pk>/', UserProfile, name='user_videos'),
 
+    path('downvote_post/', DownVoteView, name='downvote_post'),
 
-    path('like_post/<int:pk>/', LikeView, name='like_post'),
+    path('upvote_post/', UpVoteView, name='upvote_post'),
+
+    # path('like_post/<int:pk>/', LikeView, name='like_post'),
+
+    # path('Upvote_post/<int:pk>/', UpvoteView, name='upvote_post'),
 
 ]

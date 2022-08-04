@@ -95,7 +95,8 @@ class SituationReport(models.Model):
     video = models.FileField(upload_to="report_video/%Y/%m/%d/", validators=(validate_is_mp4, validate_file_size,))
     brief_description = models.TextField(max_length=150, null=True, blank=True)
     published = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name='blog_post', blank=True)
+    like = models.ManyToManyField(User, related_name='like_blog_post', blank=True)
+    dislike = models.ManyToManyField(User, related_name='blog_post', blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -103,7 +104,10 @@ class SituationReport(models.Model):
         ordering = ['-created_on']
 
     def total_downvote(self):
-        return self.likes.count()
+        return self.dislike.count()
+
+    def total_upvote(self):
+        return self.like.count()
 
 
     def __str__(self):

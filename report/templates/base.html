@@ -11,6 +11,10 @@
  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
  <link rel="stylesheet" href="{% static 'assets/css/all.css' %}" /> 
 
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>
         {% block title %}
         Election Situation Report
@@ -157,7 +161,7 @@
     <footer class="footer-section">
 
       <p><b>FOLLOW US</b></p>
-      <li><a href="#"><i class="bi bi-twitter"></i></a></li>
+      <a href="#"><i class="fab fa-twitter"></i></a>
       <br>
           <div class="footer-copyright">
             <p>&copy; <script>document.write(new Date().getFullYear());</script>,
@@ -169,11 +173,61 @@
 
     <script src="{% static 'assets/js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'assets/js/slick.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
-    <script src="{% static 'assets/js/ResizeSensor.min.js' %}"></script>
-    <script src="{% static 'assets/js/theia-sticky-sidebar.min.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+   
+
+<script type="text/javascript">
+$(document).ready(function(event){
+    $(document).on('click', '#like', function(event){
+        event.preventDefault();
+        var pk = $(this).attr('value');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "downvote_post" %}',
+            data: {
+                'id': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            datatype: 'json',
+            success: function(response){
+                $('#like-section').html(response['form'])
+
+            },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+        });
+    });
+});
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(event){
+      $(document).on('click', '#upvote', function(event){
+          event.preventDefault();
+          var pk = $(this).attr('value');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "upvote_post" %}',
+              data: {
+                  'id': pk,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}'
+              },
+              datatype: 'json',
+              success: function(response){
+                  $('#like-section').html(response['form'])
+  
+              },
+              error: function(rs, e){
+                  console.log(rs.responseText);
+              },
+          });
+      });
+  });
+  </script>
+
 
     <script>
     function myFunction() {
@@ -232,13 +286,9 @@
 
       document.getElementById('blink'); 
 
-
-
   setInterval(function () { 
 
-      blink.style.opacity =  
-
-      (blink.style.opacity == 0 ? 1 : 0); 
+      blink.style.opacity  = (blink.style.opacity == 0 ? 1 : 0); 
 
   }, 1000);  
 
