@@ -4,9 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 import os
-import magic
 from django.core.exceptions import ValidationError
-
+import magic
 
 # VIDEO-----VALIDATORS------START
 

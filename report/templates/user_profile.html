@@ -46,6 +46,9 @@
             <p><small>This report will be taken down if downvotes exceed 1,000</small>
                |  {{ i.total_downvote }} {% if i.total_downvote > 1 %}Downvotes {% else %} Downvote{% endif %}</p>
         </li>
+        <li>
+            |  {{ i.total_upvote }} {% if i.total_upvote > 1 %}Upvotes {% else %} Upvote{% endif %}</p>
+     </li>
 
         <li>
             <p> {{i.View_counts.count}} {% if i.View_counts.count > 1 %}Views {% else %} View{% endif %}</p>
