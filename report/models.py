@@ -94,6 +94,7 @@ class SituationReport(models.Model):
     video = models.FileField(upload_to="report_video/%Y/%m/%d/", validators=(validate_is_mp4, validate_file_size,))
     brief_description = models.TextField(max_length=150, null=True, blank=True)
     published = models.BooleanField(default=False)
+    main = models.BooleanField(default=False)
     like = models.ManyToManyField(User, related_name='like_blog_post', blank=True)
     dislike = models.ManyToManyField(User, related_name='blog_post', blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
