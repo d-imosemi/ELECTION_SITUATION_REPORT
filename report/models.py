@@ -13,11 +13,11 @@ def validate_is_mp4(file):
     valid_mime_types = ['video/mp4', 'video/mpeg',]
     file_mime_type = magic.from_buffer(file.read(2048), mime=True)
     if file_mime_type not in valid_mime_types:
-        raise ValidationError('Unsupported file type.')
+        raise ValidationError('Unsupported file type. Acceptable files are .MPEG and .MP4 only')
     valid_file_extensions = ['.MP4', '.mp4', '.mpeg', '.MPEG',]
     ext = os.path.splitext(file.name)[1]
     if ext.lower() not in valid_file_extensions:
-        raise ValidationError('Unacceptable file extension. Acceptable files are .MP4')
+        raise ValidationError('Unacceptable file extension. Acceptable files are .MP4 .MPEG')
 
 def validate_file_size(value):
     filesize= value.size

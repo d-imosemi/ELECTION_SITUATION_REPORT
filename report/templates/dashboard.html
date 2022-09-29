@@ -106,6 +106,9 @@ Upload Report
 <p>Posted On: {{ i.created_on }}</p>
 <p>ID: {{ i.id }}</p>
 <p><b>Status</b>: {% if i.published %} Approved {% else %} Awaiting Approval {% endif %}</p>
+{% if i.main %}
+<p>{% if i.main %} &#10003 {% endif %}</p>
+{% endif %}
 
 <hr><hr>
 
