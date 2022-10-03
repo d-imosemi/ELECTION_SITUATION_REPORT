@@ -17,7 +17,7 @@ from report.models import *
 
 def index(request):
     # report = SituationReport.objects.filter(published=True)[0:6]
-    report = SituationReport.objects.filter(main=True)[0:6]
+    report = SituationReport.objects.filter(main=True, published=True)[0:6]
     quote = DailyInspiration.objects.all()[0:1]
     header_title = HeaderTitle.objects.all()[0:1]
     candidate = Candidate.objects.all()[0:4]
